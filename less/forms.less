@@ -1,0 +1,344 @@
+// -------------------------
+// FORMS
+// -------------------------
+
+form {
+	.clearfix;
+}
+
+legend {
+	padding-bottom: @lineHeight * 0.25;
+}
+
+fieldset {
+	border: 1px solid #E5E5E5;
+	padding: 25px 30px 30px;
+}
+
+.control-group {
+	margin-top: 1em;
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	.control-label {
+		display: block;
+		margin-bottom: 0.25em;
+	}
+
+	&.h {
+		.control-label {
+			display: block;
+			float: left;
+		}
+
+		.controls {
+			margin-left: @labelOffset + 10;
+
+			> label {
+				.inline-block;
+				margin-left: 20px;
+
+				&.first,
+				&:first-child {
+					margin-left: 0;
+				}
+
+				&.stacked {
+					display: block;
+					margin-top: @lineHeight;
+
+					&.first,
+					&:first-child {
+						margin-top: 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+.label-right {
+	display: block;
+	height: @controlHeight;
+	line-height: @controlHeight;
+	margin-left: 35px;
+}
+
+.focus {
+	.box-shadow(0 0 3px @colorPrimaryLight);
+	border: 1px solid @colorPrimary;
+	outline: none;
+}
+
+// --------------------------------------------------
+// INPUT STYLES
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'] {
+	font-family: @fontNormal;
+	font-size: @textNormal;
+	height: @controlHeight;
+	line-height: @controlHeight;
+	padding: 0 10px;
+	vertical-align: middle;
+	width: 300px;
+
+	&:focus {
+		.focus;
+	}
+
+	// Input Sizes
+	&.xs { width: 80px; }
+	&.s  { width: 120px; }
+	&.m  { width: 300px; }
+	&.l  { width: 500px; }
+	&.xl { width: 100%; }
+	// End Input Sizes
+}
+
+input[disabled='disabled'] {
+	background-color: #E5E5E5;
+	color: #AAA;
+}
+
+// END INPUT STYLES
+// --------------------------------------------------
+
+
+// --------------------------------------------------
+// TEXTAREA STYLES
+
+.textarea-wrapper {
+	width: 500px;
+
+	&.xl { width: 100%; }
+}
+
+textarea {
+	background-color: transparent;
+	border: 0;
+	font-family: @fontNormal;
+	font-size: @textNormal;
+	height: 100%;
+	line-height: @lineHeight;
+	padding: 10px;
+	vertical-align: middle;
+	width: 100%;
+
+	&:focus {
+		border: 0;
+		outline: none;
+	}
+
+	&.code {
+		font-family: @fontMono;
+	}
+}
+
+// END TEXTAREA STYLES
+// --------------------------------------------------
+
+
+// --------------------------------------------------
+// SELECT STYLES
+
+.select-wrapper {
+	.inline-block;
+	background-color: #FFF;
+	height: @controlHeight;
+	line-height: @controlHeight;
+	overflow: hidden;
+	position: relative;
+	vertical-align: middle;
+
+	// Input Sizes
+	&.s  { width: 120px; }
+	&.m  { width: 300px; }
+	&.l  { width: 500px; }
+	&.xl { width: 100%; }
+	// End Input Sizes
+
+	select {
+		.no-appearance;
+		.opacity(0);
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+	.select-content {
+		float: left;
+		font-family: @fontNormal;
+		font-size: @textNormal;
+		height: 100%;
+		padding: 0 10px;
+	}
+
+	.select-handle {
+		float: right;
+		height: 100%;
+		text-align: center;
+		width: 30px;
+	}
+}
+
+// END SELECT STYLES
+// --------------------------------------------------
+
+
+// --------------------------------------------------
+// RADIO AND CHECKBOX STYLES
+
+.radio-wrapper, .checkbox-wrapper {
+	.inline-block;
+	background-image: url('../img/radio.png');
+	background-position: 0 0;
+	height: @checkboxHeight;
+	margin-right: 5px;
+	overflow: hidden;
+	position: relative;
+	vertical-align: middle;
+	width: @checkboxWidth;
+
+	&.focus {
+		background-position: 0 (@checkboxHeight + 10) * -1px;
+	}
+
+	&.checked {
+		background-position: 0 (@checkboxHeight + 10) * -2px;
+	}
+
+	&.checked.focus {
+		background-position: 0 (@checkboxHeight + 10) * -3px;
+	}
+
+	input {
+		.opacity(0);
+		cursor: pointer;
+		height: 200%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 200%;
+	}
+}
+
+.checkbox-wrapper {
+	background-image: url('../img/checkbox.png');
+}
+
+// END RADIO AND CHECKBOX STYLES
+// --------------------------------------------------
+
+
+// --------------------------------------------------
+// TOGGLE STYLES
+
+.toggle-wrapper {
+	.inline-block;
+	height: 30px;
+	position: relative;
+	width: 60px;
+
+	input {
+		.opacity(0);
+		cursor: pointer;
+		height: 30px;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 60px;
+		z-index: 30;
+	}
+
+	.groove {
+		background-color: #CCC;
+		height: 30px;
+		width: 60px;
+		z-index: 0;
+
+		.toggle-on, .toggle-off {
+			color: #FFF;
+			float: left;
+			font-size: 9px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			text-transform: uppercase;
+			width: 30px;
+		}
+
+		.toggle-off {
+			color: #777;
+			float: right;
+		}
+	}
+
+	&.on .groove {
+		background-color: #8BC84A;
+	}
+
+	.switch {
+		background-color: #BBB;
+		border: 1px solid #AAA;
+		left: 0;
+		height: 30px;
+		position: absolute;
+		top: 0;
+		width: 30px;
+		z-index: 20px;
+	}
+
+	&.focus .groove {
+		.focus;
+	}
+}
+
+// END TOGGLE STYLES
+// --------------------------------------------------
+
+
+// --------------------------------------------------
+// BUTTON STYLES
+
+button {
+	background-color: #CCC;
+	line-height: @controlHeight;
+	min-height: @controlHeight;
+	padding: 0 20px;
+	vertical-align: middle;
+
+	&:hover {
+		background-color: #DDD;
+	}
+
+	&:active {
+		background-color: #EEE;
+	}
+
+	&.img {
+		background-color: transparent;
+		text-indent: -9999px;
+
+		&:hover {
+			background-position: 0 (@controlHeight + 10) * -1;
+		}
+
+		&:active {
+			background-position: 0 (@controlHeight + 10) * -2;
+		}
+	}
+
+	&:focus {
+		.focus;
+	}
+}
+
+// END BUTTON STYLES
+// --------------------------------------------------

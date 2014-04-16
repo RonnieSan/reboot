@@ -1,0 +1,74 @@
+// --------------------------------------------------
+// COLUMN STYLING
+// --------------------------------------------------
+
+// Gutter mixin for columns
+.gutter(@gutterWidth) {
+	margin-left: 40px;
+
+	&.first,
+	&:first-child {
+		margin-left: 0;
+	}
+}
+
+.row {
+	.clearfix;
+	margin-top: @gutterWidth;
+
+	&.first,
+	&:first-child,
+	&.collapse {
+		margin-top: 0;
+	}
+
+	.column {
+		margin-left: @gutterWidth;
+		float: left;
+
+		&.first,
+		&:first-child,
+		.collapse, {
+			margin-left: 0;
+		}
+	}
+
+	// Fluid columns
+	&.fluid {
+
+		.column {
+			.border-box;
+			padding-left: @gutterWidth;
+
+			.inner {
+				width: 100%;
+			}
+
+			&.first,
+			&:first-child,
+			&.collapse {
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+// For anything less than wide
+.desktop({
+	
+	.row {
+
+		.column {
+			margin-left: 0;
+			width: 100%;
+		}
+
+		&.fluid {
+
+			.column {
+				padding-left: 0;
+				width: 100%;
+			}
+		}
+	}
+});

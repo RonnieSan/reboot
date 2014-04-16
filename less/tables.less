@@ -1,0 +1,99 @@
+
+
+// Table reset
+table {
+	background-color: @tableBkgColor;
+	border-spacing: 0;
+	width: 100%;
+ 
+	> thead > tr > th,
+	> tbody > tr > td {
+		font-size: @textNormal;
+		min-height: @tableCellHeight;
+		padding: @tablePadding;
+		vertical-align: middle;
+
+		&.left {
+			.align-left;
+		}
+
+		&.center {
+			.align-center;
+		}
+
+		&.right {
+			.align-right;
+		}
+	}
+ 
+	> thead {
+		> tr > th {
+			background-color: @tableHeaderBkg;
+			color: @tableHeaderColor;
+			font-weight: bold;
+		}
+	}
+ 
+	> tbody {
+
+		> tr {
+			
+			&.striped > td {
+				background-color: @tableRowAltColor;
+			}
+
+			&:hover > td {
+				background-color: @tableRowHoverColor !important;
+			}
+		}
+	}
+}
+
+
+ 
+// Striping
+table.striped {
+ 
+	> tbody {
+		> tr:nth-child(2n-1) {
+			> td {
+				background-color: @tableRowAltColor;
+			}
+		}
+	}
+ 
+}
+ 
+// Bordered
+table.bordered {
+	border: 1px solid @tableBorderColor;
+
+	> thead {
+		> tr {
+			> th {
+				border-left: 1px solid @tableBorderColor;
+			}
+ 
+			> th:first-child {
+				border-left: 0;
+			}
+		}
+	}
+ 
+	> tbody {
+		> tr {
+			> td {
+				border-left: 1px solid @tableBorderColor;
+				border-top: 1px solid @tableBorderColor;
+			}
+ 
+			> td:first-child {
+				border-left: 0;
+			}
+
+			&:first-child > td {
+				border-top: 0;
+			}
+		}
+	}
+}

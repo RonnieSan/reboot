@@ -1,0 +1,46 @@
+// --------------------------------------------------
+// RESPONSIVE MIXINS
+// --------------------------------------------------
+
+// Desktop Rules
+.desktop(@rules) {
+	@media screen and (max-width: @snapDesktop) {
+		@rules();
+	}
+}
+
+.desktop-only(@rules) {
+	@media screen and (min-width: @widthDesktop) and (max-width: @snapDesktop) {
+		@rules();
+	}
+}
+
+
+// Tablet Rules
+.tablet(@rules) {
+	@media screen and (max-width: @snapTablet) {
+		@rules();
+	}
+}
+
+.tablet-only(@rules) {
+	@media screen and (min-width: @widthTablet) and (max-width: @snapTablet) {
+		@rules();
+	}
+}
+
+
+// Mobile Rules
+.mobile(@rules) {
+	@media screen and (max-width: @snapMobile) {
+		@rules();
+	}
+}
+
+
+// Print Rules
+.print(@rules) {
+	@media print {
+		@rules();
+	}
+}

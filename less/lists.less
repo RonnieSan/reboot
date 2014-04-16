@@ -1,0 +1,85 @@
+// --------------------------------------------------
+// ORDERED/UNORDERED LIST STYLES
+// --------------------------------------------------
+
+ul.bulleted {
+	list-style-type: disc;
+	margin: 0;
+	padding: 0 0 0 1.5em;
+
+	> li {
+		line-height: @lineHeight;
+		margin-top: @lineHeight * 0.5;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+ol.numbered,
+ol.alpha {
+	list-style-type: decimal;
+	margin: 0;
+	padding: 0 0 0 1.5em;
+
+	> li {
+		line-height: @lineHeight;
+		margin-top: @lineHeight * 0.5;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+ol.alpha {
+	list-style-type: lower-alpha;
+
+	&.upper {
+		list-style-type: upper-alpha;
+	}
+}
+
+ul.bulleted, ol.numbered, ol.alpha {
+
+	& & {
+		margin-left: 1.5em;
+		margin-top: @lineHeight * 0.5;
+	}
+}
+
+
+// --------------------------------------------------
+// DEFINITION LISTS
+// --------------------------------------------------
+
+// Definition lists
+dl {
+	margin-bottom: @lineHeight;
+}
+dt, dd {
+	line-height: @lineHeight;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	margin-left: @lineHeight / 2;
+}
+
+// Horizontal layout (like forms)
+dl.h {
+	.clearfix;
+	
+	dt {
+		clear: left;
+		float: left;
+		text-align: right;
+		width: @dlOffset;
+	}
+	
+	dd {
+		margin-left: @dlOffset + 20;
+	}
+}

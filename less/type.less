@@ -1,0 +1,102 @@
+// -------------------------
+// TYPOGRAPHY
+// -------------------------
+
+body {
+	color: @colorTextNormal;
+	font-family: @fontNormal;
+	font-size: @textNormal;
+	line-height: @lineHeight;
+}
+
+// Headings
+h1, h2, h3, h4 {
+	color: @colorTextHeading;
+	font-family: @fontHeading;
+	line-height: 1em;
+	margin: 0;
+}
+
+h1 {
+	font-size: @textH1;
+}
+
+h2 {
+	font-size: @textH2;
+}
+
+h3 {
+	font-size: @textH3;
+}
+
+h4 {
+	font-size: @textH4;
+}
+
+
+// Body copy
+p {
+	margin-bottom: @lineHeight;
+}
+
+
+// Horizontal rule
+hr {
+	border: 0;
+	border-top: 1px solid #EEE;
+	height: 0;
+	margin: @lineHeight 0;
+}
+
+
+// Links
+a {
+	color: @colorLink;
+	text-decoration: none;
+
+	&:hover {
+		color: @colorLinkHover;
+		text-decoration: underline;
+	}
+
+	&:active {
+		color: @colorLinkActive;
+		text-decoration: underline;
+	}
+}
+
+
+// Special copy
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+.lead {
+	font-size: @textNormal * 1.25;
+	font-weight: normal;
+}
+
+.small {
+	font-size: @textSmall;
+}
+
+.muted {
+	color: lighten(@colorTextNormal, 25%);
+	font-size: 85%;
+}
+
+.smallcaps {
+	font-size: 90%;
+	text-transform: uppercase;
+}
+
+
+// Abbreviations
+abbr {
+	border-bottom: 1px dotted @colorTextNormal;
+	cursor: help;
+}

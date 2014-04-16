@@ -1,0 +1,161 @@
+// -------------------------
+// MIXINS
+// -------------------------
+
+// Alignment
+.align-left {
+	text-align: left;
+}
+.align-center {
+	text-align: center;
+}
+.align-right {
+	text-align: right;
+}
+.align-justify {
+	text-align: justify;
+}
+
+// Clip the background - useful for rounded corners
+// Supported in IE 9+, Safari, Chrome, FF
+.background-clip(@argument: padding-box) {
+	-moz-background-clip: @argument;
+	-webkit-background-clip: @argument;
+	background-clip: @argument;
+}
+ 
+// Change the box-sizing of an element to border-box
+// Supported in IE 8+, Safari, Chrome, FF
+.border-box {
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+ 
+// Arbitrary rounded corners
+// Supported in IE 9+, Safari, Chrome, FF
+.border-radius(@arguments) {
+	-webkit-border-radius: @arguments;
+	-moz-border-radius: @arguments;
+	border-radius: @arguments;
+	.background-clip(padding-box);
+}
+
+.borderless {
+	border: 0 !important;
+}
+ 
+// Cross-browser box shadows
+// Supported in IE 9+, Safari, Chrome, FF
+.box-shadow(@arguments: 0 2px 5px rgba(0, 0, 0, 0.25)) {
+	-webkit-box-shadow+: @arguments;
+	-moz-box-shadow+: @arguments;
+	box-shadow+: @arguments;
+}
+ 
+// Clear all floats
+.clear-both {
+	clear: both;
+}
+
+// Expand container to content height
+.clearfix() {
+	*zoom: 1;
+	&:before,
+	&:after {
+		display: table;
+		content: "";
+		line-height: 0;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+// Floats
+.float-left {
+	float: left;
+}
+.float-right {
+	float: right;
+}
+.float-none {
+	float: none;
+}
+ 
+// Simple vertical gradient
+// Supported in IE 10+, Safari, Chrome, FF
+.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
+	background: @color;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, @start), color-stop(1, @stop));
+	background: -ms-linear-gradient(bottom, @start, @stop);
+	background: -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
+	background: -o-linear-gradient(@stop, @start);
+	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", @stop, @start));
+}
+
+// Inline-block styling for IE compatability
+.inline-block {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+}
+ 
+// Cross-browser inner shadows
+
+.inner-shadow(@arguments: 2px 2px 5px rgba(0, 0, 0, 0.4)) {
+	-webkit-box-shadow: inset @arguments;
+	-moz-box-shadow: inset @argumebnts;
+	box-shadow: inset @arguments;
+}
+ 
+// Remove the appearance of certain form elements in Mozilla and Webkit
+.no-appearance {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+// Hide an object
+.none {
+	display: none;
+}
+ 
+// Cross-browser opacity
+// Supported in IE 8+, Safari, Chrome, FF
+.opacity(@opacity: 0.5) {
+	-moz-opacity: @opacity;
+	-khtml-opacity: @opacity;
+	-webkit-opacity: @opacity;
+	opacity: @opacity;
+	@opperc: @opacity * 100;
+	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+	filter: ~"alpha(opacity=@{opperc})";
+}
+ 
+// Cross-browser transparent backgrounds
+// Supported in IE 9+, Safari, Chrome, FF
+.rgba(@colour, @alpha) {
+	@alphaColour: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);
+	@ieAlphaColour: argb(@alphaColour);
+	 
+	background-color: @colour; // Fallback for older browsers
+	background-color: @alphaColour;
+	 
+	// IE hacks
+	zoom: 1; // hasLayout
+	background-color: transparent\9;
+	-ms-filter:  "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
+		filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 6 & 7    
+}
+ 
+// Simple sprite styles
+.sprite(@src, @left, @top, @width, @height) {
+	background-image: url(@src);
+	background-position: -@left -@top;
+	display: block;
+	height: @height;
+	text-indent: -9999px;
+	width: @width;
+}

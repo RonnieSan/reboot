@@ -1,0 +1,42 @@
+// --------------------------------------------------
+// REACTIVE FORM STYLES
+// Inset Fields
+// --------------------------------------------------
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+.textarea-wrapper,
+.select-wrapper {
+	.border-radius(2px);
+	.box-shadow(inset 1px 1px 3px rgba(0,0,0,0.25)) !important;
+	background-color: rgba(0,0,0,0.15);
+	border: 1px solid rgba(0,0,0,0.35);
+}
+
+.textarea-wrapper {
+	overflow: hidden;
+}
+
+button {
+	.border-radius(2px);
+	background-color: rgba(0,0,0,0.85);
+	color: #FFF;
+	font-size: 0.875em;
+	font-weight: bold;
+	text-transform: uppercase;
+
+	&:focus {
+		background-color: rgba(0,0,0,0.75);
+		border: 0;
+	}
+
+	&:hover {
+		background-color: rgba(0,0,0,0.75);
+	}
+
+	&:active {
+		background-color: rgba(0,0,0,0.65);
+	}
+}
