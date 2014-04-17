@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'reboot';
+  src: url('../fonts/reboot.eot?87737126');
+  src: url('../fonts/reboot.eot?87737126#iefix') format('embedded-opentype'),
+       url('../fonts/reboot.woff?87737126') format('woff'),
+       url('../fonts/reboot.ttf?87737126') format('truetype'),
+       url('../fonts/reboot.svg?87737126#reboot') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'reboot';
+    src: url('../font/reboot.svg?87737126#reboot') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "reboot";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+i.add-box:before { content: '\e800'; } /* '' */
+i.add:before { content: '\e802'; } /* '' */
+i.arrow-circle-down:before { content: '\e803'; } /* '' */
+i.arrow-circle-left:before { content: '\e804'; } /* '' */
+i.arrow-circle-right:before { content: '\e805'; } /* '' */
+i.arrow-circle-up:before { content: '\e806'; } /* '' */
+i.arrow-down:before { content: '\e807'; } /* '' */
+i.arrow-left:before { content: '\e80f'; } /* '' */
+i.arrow-right:before { content: '\e810'; } /* '' */
+i.arrow-up:before { content: '\e811'; } /* '' */
+i.bullet:before { content: '\e812'; } /* '' */
+i.check:before { content: '\e814'; } /* '' */
+i.check-round:before { content: '\e813'; } /* '' */
+i.add-round:before { content: '\e801'; } /* '' */
+i.chevron-down:before { content: '\e815'; } /* '' */
+i.chevron-left:before { content: '\e816'; } /* '' */
+i.chevron-right:before { content: '\e817'; } /* '' */
+i.chevron-up:before { content: '\e818'; } /* '' */
+i.menu:before { content: '\e80e'; } /* '' */
+i.delete-box:before { content: '\e819'; } /* '' */
+i.delete:before { content: '\e81a'; } /* '' */
+i.triangle-down:before { content: '\e808'; } /* '' */
+i.triangle-left:before { content: '\e809'; } /* '' */
+i.triangle-right:before { content: '\e80a'; } /* '' */
+i.triangle-up:before { content: '\e80b'; } /* '' */
+i.x-round:before { content: '\e80c'; } /* '' */
+i.x:before { content: '\e80d'; } /* '' */
