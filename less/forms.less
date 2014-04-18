@@ -15,6 +15,10 @@ fieldset {
 	padding: 25px 30px 30px;
 }
 
+label {
+	.inline-block;
+}
+
 .control-group {
 	margin-top: 1em;
 
@@ -66,12 +70,6 @@ fieldset {
 	margin-left: 35px;
 }
 
-.focus {
-	.box-shadow(0 0 3px @colorPrimaryLight);
-	border: 1px solid @colorPrimary;
-	outline: none;
-}
-
 // --------------------------------------------------
 // INPUT STYLES
 
@@ -86,10 +84,6 @@ input[type='number'] {
 	padding: 0 10px;
 	vertical-align: middle;
 	width: 300px;
-
-	&:focus {
-		.focus;
-	}
 
 	// Input Sizes
 	&.xs { width: 80px; }
@@ -188,6 +182,53 @@ textarea {
 	}
 }
 
+.multi-select-wrapper {
+	.inline-block;
+	background-color: #FFF;
+	height: 80px;
+	overflow-y: auto;
+	position: relative;
+	vertical-align: top;
+
+	select {
+		.no-appearance;
+		.opacity(0);
+		height: 1px;
+		left: -1px;
+		position: absolute;
+		top: 0;
+		width: 1px;
+	}
+
+	.select-content {
+
+		.option {
+			cursor: default;
+			height: @controlHeight;
+			line-height: @controlHeight;
+			padding: 0 10px;
+			
+			&:hover {
+				background-color: #F5F5F5;
+			}
+
+			&.ui-selected {
+				color: #FFF;
+				background-color: @colorPrimary;
+
+				&:hover {
+					background-color: lighten(@colorPrimaryLight, 2%);
+				}
+			}
+
+			&.ui-selecting {
+				color: #FFF;
+				background-color: @colorPrimaryLight;
+			}
+		}
+	}
+}
+
 // END SELECT STYLES
 // --------------------------------------------------
 
@@ -195,27 +236,41 @@ textarea {
 // --------------------------------------------------
 // RADIO AND CHECKBOX STYLES
 
-.radio-wrapper, .checkbox-wrapper {
+.radio-wrapper {
 	.inline-block;
-	background-image: url('../img/radio.png');
-	background-position: 0 0;
-	height: @checkboxHeight;
+	height: @radioHeight;
 	margin-right: 5px;
 	overflow: hidden;
 	position: relative;
 	vertical-align: middle;
-	width: @checkboxWidth;
+	width: @radioWidth;
 
-	&.focus {
-		background-position: 0 (@checkboxHeight + 10) * -1px;
+	.radio {
+		display: block;
+		height: @radioHeight;
+		line-height: @radioHeight;
+		position: absolute;
+		width: @radioWidth;
+		z-index: 10;
+	}
+	
+	.bullet {
+		display: block;
+		font-size: 14px;
+		height: @radioHeight;
+		line-height: @radioHeight;
+		position: absolute;
+		text-align: center;
+		visibility: hidden;
+		width: @radioWidth;
+		z-index: 20;
 	}
 
 	&.checked {
-		background-position: 0 (@checkboxHeight + 10) * -2px;
-	}
 
-	&.checked.focus {
-		background-position: 0 (@checkboxHeight + 10) * -3px;
+		.bullet {
+			visibility: visible;
+		}
 	}
 
 	input {
@@ -223,14 +278,64 @@ textarea {
 		cursor: pointer;
 		height: 200%;
 		left: 0;
+		margin: 0 !important;
+		padding: 0 !important;
 		position: absolute;
 		top: 0;
 		width: 200%;
+		z-index: 30;
 	}
 }
 
 .checkbox-wrapper {
-	background-image: url('../img/checkbox.png');
+	.inline-block;
+	height: @checkboxHeight;
+	margin-right: 5px;
+	overflow: hidden;
+	position: relative;
+	vertical-align: middle;
+	width: @checkboxWidth;
+
+	.box {
+		display: block;
+		height: @checkboxHeight;
+		line-height: @checkboxHeight;
+		position: absolute;
+		width: @checkboxWidth;
+		z-index: 10;
+	}
+
+	.checkmark {
+		display: block;
+		font-size: 14px;
+		height: @checkboxHeight;
+		line-height: @checkboxHeight;
+		position: absolute;
+		text-align: center;
+		visibility: hidden;
+		width: @checkboxWidth;
+		z-index: 20;
+	}
+
+	&.checked {
+
+		.checkmark {
+			visibility: visible;
+		}
+	}
+
+	input {
+		.opacity(0);
+		cursor: pointer;
+		height: 200%;
+		left: 0;
+		margin: 0 !important;
+		padding: 0 !important;
+		position: absolute;
+		top: 0;
+		width: 200%;
+		z-index: 30;
+	}
 }
 
 // END RADIO AND CHECKBOX STYLES
@@ -295,9 +400,6 @@ textarea {
 		z-index: 20px;
 	}
 
-	&.focus .groove {
-		.focus;
-	}
 }
 
 // END TOGGLE STYLES
@@ -333,10 +435,6 @@ button {
 		&:active {
 			background-position: 0 (@controlHeight + 10) * -2;
 		}
-	}
-
-	&:focus {
-		.focus;
 	}
 }
 

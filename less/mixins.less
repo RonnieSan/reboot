@@ -53,7 +53,14 @@
 	-moz-box-shadow+: @arguments;
 	box-shadow+: @arguments;
 }
- 
+
+.box-sizing(@prop: content-box) {
+	-ms-box-sizing: @prop;
+	-moz-box-sizing: @prop;
+	-webkit-box-sizing: @prop;
+	box-sizing: @prop;
+}
+
 // Clear all floats
 .clear-both {
 	clear: both;

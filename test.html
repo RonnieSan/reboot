@@ -1,3 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script>
 // --------------------------------------------------
 // REBOOT FORMS PLUGIN
 // Allow stylable selects, checkboxes, and radios
@@ -99,15 +107,8 @@
 						});
 
 						// Make the options selectable
-						data.wrapper.bind("mousedown", function (event) {
-    							event.metaKey = true;
-							}).selectable({
+						data.contentEl.selectable({
 								'filter'     : '.option',
-								'start'      : function(event, ui) {
-										// Clear existing selection
-										data.wrapper.find('.option').removeClass(selectedClass);
-										$this.val('');
-									},
 								'selected'   : function(event, ui) {
 										$this.find('option[value="' + $(ui.selected).attr('data-value') + '"]').prop('selected', true);
 									},
@@ -147,9 +148,10 @@
 							// Set the content to the selected value
 							if ($this.attr('multiple')) {
 								var selectedValues = $this.val();
-								$this.find('.option').removeClass(selectedClass);
+								console.log(selectedValues);
+								data.wrapper.find('.option').removeClass(selectedClass);
 								$.each(selectedValues, function(index, value) {
-									$this.find('.option[data-value="' + value + '"]').addClass(selectedClass);
+									data.wrapper.find('.option[data-value="' + value + '"]').addClass(selectedClass);
 								});
 							} else {
 								data.wrapper.find('.select-content').text($this.find('option:selected').text());
@@ -163,8 +165,96 @@
 
 		},
 
-		radios : function() {
+		radios : function(options) {
 			
+			if (options) {
+				var formsSettings = options.forms;
+				var radiosSettings = options.radios;
+			}
+
+			var settings = $.extend({
+
+				'class'           : false,
+				'bulletContent'   : '<i class="re-bullet"></i>',
+				'bulletClass'     : false,
+				'transferClasses' : 'move'
+
+			}, formsSettings, radiosSettings);
+
+			return this.each(function() {
+
+				var $this = $(this),
+					data  = $this.data('reboot_forms'),
+					id    = $this.attr('id');
+
+				// If the plugin hasn't been initialized yet
+				if (!data) {
+
+					// Create the data object
+					$this.data('reboot_forms', {
+						settings : settings,
+						target   : $this
+					});
+
+					data = $this.data('reboot_forms');
+					
+					// Create the wrapper element
+					data.wrapper = $('<div class="radio-wrapper" />');
+					if (id) {
+						data.wrapper.attr('id', id + '--wrapper');
+					}
+
+					// Transfer classes to the radio wrapper
+					if (settings.transferClasses) {
+						data.wrapper.addClass($this.attr('class'));
+					}
+					if (settings.transferClasses === 'move') {
+						$this.removeAttr('class');
+					}
+					if (settings.class) {
+						data.wrapper.addClass(settings.class);
+					}
+
+					// Create the stylable elements
+					data.bullet = $('<div class="bullet">' + settings.bulletContent + '</div>');
+					if (settings.bulletClass) {
+						data.checkmark.addClass(settings.bulletClass);
+					}
+					data.radio = $('<div class="radio"></div>');
+
+					// Wrap the checkbox in the wrapper and add the checkmark
+					data.wrapper.insertBefore($this).append($this).append(data.radio).append(data.bullet);
+
+					// Check if the checkbox is checked
+					if ($this.is(':checked')) {
+						data.wrapper.addClass('checked');
+					}
+
+					$this
+						.on('focus', function() {
+							data.wrapper.addClass('focus');
+						})
+						.on('blur', function() {
+							data.wrapper.removeClass('focus');
+						})
+						.on('check', function() {
+							$this.prop('checked', true);
+							data.wrapper.addClass('checked');
+						})
+						.on('uncheck', function() {
+							$this.prop('checked', '');
+							data.wrapper.removeClass('checked');
+						})
+						.on('click', function() {
+							// Unselect all radios
+							$('input:radio[name="' + $this.attr('name') + '"]').trigger('uncheck');
+							$this.trigger('check');
+						});
+						
+				}
+				
+			});
+
 		},
 
 		// Make radio buttons and checkboxes stylable
@@ -178,7 +268,7 @@
 			var settings = $.extend({
 
 				'class'            : false,
-				'checkClass'       : false,
+				'checkmarkClass'   : false,
 				'checkmarkContent' : '<i class="re-check"></i>',
 				'transferClasses'  : 'move'
 
@@ -203,15 +293,30 @@
 					
 					// Create the wrapper element
 					data.wrapper = $('<div class="checkbox-wrapper" />');
-						if (id) {
-							data.wrapper.attr('id', id + '--wrapper');
-						}
+					if (id) {
+						data.wrapper.attr('id', id + '--wrapper');
+					}
 
-					// Create the checkmark element
+					// Transfer classes to the checkbox wrapper
+					if (settings.transferClasses) {
+						data.wrapper.addClass($this.attr('class'));
+					}
+					if (settings.transferClasses === 'move') {
+						$this.removeAttr('class');
+					}
+					if (settings.class) {
+						data.wrapper.addClass(settings.class);
+					}
+
+					// Create the stylable elements
 					data.checkmark = $('<div class="checkmark">' + settings.checkmarkContent + '</div>');
+					if (data.settings.checkmarkClass) {
+						data.checkmark.addClass(data.settings.checkmarkClass);
+					}
+					data.box = $('<div class="box"></div>');
 
 					// Wrap the checkbox in the wrapper and add the checkmark
-					data.wrapper.insertBefore($this).append($this).append(data.checkmark);
+					data.wrapper.insertBefore($this).append($this).append(data.box).append(data.checkmark);
 
 					// Check if the checkbox is checked
 					if ($this.is(':checked')) {
@@ -350,3 +455,34 @@
 	};
 
 })(jQuery);
+
+$(function() {
+	$('select').reboot_forms('selects');
+	$(':checkbox').reboot_forms('checkboxes');
+	$(':radio').reboot_forms('radios');
+});
+	</script>
+	<link rel="stylesheet" href="less/reboot.css">
+</head>
+<body>
+	<p><select name="test" id="form-test--test">
+		<option value="1">Option 1</option>
+		<option value="2">Option 2</option>
+		<option value="3">Option 3</option>
+	</select></p>
+	<p><select name="test2" id="form-test--test2" multiple>
+		<option value="1">Option 1</option>
+		<option value="2">Option 2</option>
+		<option value="3">Option 3</option>
+	</select></p>
+	<div class="control-group">
+		<label class="control-label" for=""></label>
+		<div class="controls">
+			<label><input type="checkbox" name="testing" id="form-test--testing" />Type your label here</label>	
+		</div>
+	</div>
+	<p><label><input type="radio" name="tester" id="form-test--tester--1" />Type your label here</label></p>
+	<p><label><input type="radio" name="tester" id="form-test--tester--2" />Type your label here</label></p>
+	<p><label><input type="radio" name="tester" id="form-test--tester--3" />Type your label here</label></p>
+</body>
+</html>

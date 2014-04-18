@@ -8,13 +8,44 @@ input[type='password'],
 input[type='email'],
 input[type='number'],
 .textarea-wrapper,
-.select-wrapper {
+.select-wrapper,
+.multi-select-wrapper {
 	.border-radius(3px);
 	border: 1px solid @tableBorderColor;
+
+	&.focus {
+		.box-shadow(0 0 3px @colorPrimary);
+	}
 }
 
 .textarea-wrapper {
 	overflow: hidden;
+}
+
+.checkbox-wrapper {
+
+	.box {
+		.border-radius(2px);
+		border: 2px solid @tableBorderColor;
+	}
+
+	&.focus {
+		.box-shadow(0 0 3px @colorPrimary);
+		.border-radius(2px);
+	}
+}
+
+.radio-wrapper {
+
+	.radio {
+		.border-radius(20px);
+		border: 2px solid @tableBorderColor;
+	}
+
+	&.focus {
+		.box-shadow(0 0 3px @colorPrimary);
+		.border-radius(20px);
+	}
 }
 
 button {
@@ -23,4 +54,8 @@ button {
 	font-size: 0.875em;
 	font-weight: bold;
 	text-transform: uppercase;
+
+	&.focus {
+		.box-shadow(0 0 3px @colorPrimary);
+	}
 }
