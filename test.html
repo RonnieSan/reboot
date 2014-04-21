@@ -43,6 +43,9 @@
 				'selectHandleContent' : '<i class="re-chevron-down"></i>',
 				'transferClasses'     : 'move' // move, copy, false
 
+				// Events
+				// 'destroy' : function() {}
+
 			}, formsSettings, selectsSettings);
 
 			return this.each(function() {
@@ -73,10 +76,7 @@
 
 					// Transfer the classes from the select element to the wrapper
 					if (settings.transferClasses) {
-						data.wrapper.addClass($this.attr('class'));
-					}
-					if (settings.transferClasses === 'move') {
-						$this.removeAttr('class');
+						methods.transferClasses.call($this);
 					}
 					if (settings.class) {
 						data.wrapper.addClass(settings.class);
@@ -179,6 +179,12 @@
 				'bulletClass'     : false,
 				'transferClasses' : 'move'
 
+				// Events
+				// 'click'   : function() {},
+				// 'check'   : function() {},
+				// 'uncheck' : function() {},
+				// 'destroy' : function() {}
+
 			}, formsSettings, radiosSettings);
 
 			return this.each(function() {
@@ -206,10 +212,7 @@
 
 					// Transfer classes to the radio wrapper
 					if (settings.transferClasses) {
-						data.wrapper.addClass($this.attr('class'));
-					}
-					if (settings.transferClasses === 'move') {
-						$this.removeAttr('class');
+						methods.transferClasses.call($this);
 					}
 					if (settings.class) {
 						data.wrapper.addClass(settings.class);
@@ -252,6 +255,8 @@
 						});
 						
 				}
+
+				return $this;
 				
 			});
 
@@ -261,7 +266,7 @@
 		checkboxes : function(options) {
 
 			if (options) {
-				var formsSettings   = options.forms;
+				var formsSettings      = options.forms;
 				var checkboxesSettings = options.checkboxes;
 			}
 
@@ -271,6 +276,12 @@
 				'checkmarkClass'   : false,
 				'checkmarkContent' : '<i class="re-check"></i>',
 				'transferClasses'  : 'move'
+
+				// Events
+				// 'click'   : function() {},
+				// 'check'   : function() {},
+				// 'uncheck' : function() {},
+				// 'destroy' : function() {}
 
 			}, formsSettings, checkboxesSettings);
 
@@ -299,10 +310,7 @@
 
 					// Transfer classes to the checkbox wrapper
 					if (settings.transferClasses) {
-						data.wrapper.addClass($this.attr('class'));
-					}
-					if (settings.transferClasses === 'move') {
-						$this.removeAttr('class');
+						methods.transferClasses.call($this);
 					}
 					if (settings.class) {
 						data.wrapper.addClass(settings.class);
@@ -347,6 +355,8 @@
 						});
 						
 				}
+
+				return $this;
 				
 			});
 
@@ -355,15 +365,27 @@
 		// Make radio buttons anc checkboxes stylable
 		toggles : function(options) {
 
+			if (options) {
+				var formsSettings   = options.forms;
+				var togglesSettings = options.checkboxes;
+			}
+
 			var settings = $.extend({
 
-				'toggleOnText'  : 'ON',
-				'toggleOffText' : 'OFF',
-				'toggleSpeed'   : 100,
+				'class'             : false,
+				'toggleHandleClass' : false,
+				'toggleOnText'      : 'ON',
+				'toggleOffText'     : 'OFF',
+				'toggleSpeed'       : 100,
+				'transferClasses'   : 'move'
 
-				'onClick'       : function() { return true; }
+				// Events
+				// 'click'     : function() {},
+				// 'toggleOff' : function() {},
+				// 'toggleOn'  : function() {},
+				// 'destroy'   : function() {}
 
-			}, options);
+			}, formsSettings, togglesSettings);
 
 			return this.each(function() {
 
@@ -384,19 +406,52 @@
 
 						data = $this.data('reboot_forms');
 						
+						// Create the wrapper element
 						data.wrapper = $('<div class="toggle-wrapper"></div>');
 						if (id) {
-							data.wrapper.attr('id', id + '-wrapper');
+							data.wrapper.attr('id', id + '--wrapper');
 						}
-						data.toggleSwitch = $('<div class="switch"></div>');
-						data.wrapper.insertBefore($this)
-							.append(data.toggleSwitch)
-							.append($('<div class="toggle-on">' + data.settings.toggleOnText + '</div><div class="toggle-off">' + data.settings.toggleOffText + '</div>'))
-							.append($this);
 
+						// Transfer classes to the wrapper
+						if (settings.transferClasses) {
+							methods.transferClasses.call($this);
+						}
+
+						// Add a custom wrapper class
+						if (data.settings.class) {
+							data.wrapper.addClass(settings.class);
+						}
+
+						// Create the groove element
+						data.toggleGroove = $('<div class="groove"></div>');
+
+						// Create the color overlay
+						data.toggleOverlay = $('<div class="overlay"></div>');
+
+						// Create the text elements
+						data.toggleText = $('<div class="toggle-on">' + data.settings.toggleOnText + '</div><div class="toggle-off">' + data.settings.toggleOffText + '</div>');
+
+						// Create the switch element
+						data.toggleHandle = $('<div class="handle"></div>');
+
+						// Add the custom class to the handle
+						if (settings.toggleHandleClass) {
+							data.toggleHandle.addClass(settings.toggleHandleClass);
+						}
+
+						// Insert the elements
+						data.wrapper.insertBefore($this)
+							.append($this)
+							.append(data.toggleGroove)
+							.append(data.toggleHandle);
+						data.toggleGroove
+							.append(data.toggleOverlay)
+							.append(data.toggleText);
+							
+						// Toggle on by default if the checkbox is checked
 						if ($this.is(':checked')) {
 							data.wrapper.addClass('on');
-							data.toggleSwitch.css('left', '50%');
+							data.toggleHandle.css('left', '50%');
 						}
 
 						$this
@@ -407,33 +462,89 @@
 							data.wrapper.removeClass('focused');
 						})
 						.on('check', function() {
-							data.toggleSwitch.stop().animate({ 'left' : '50%', 'backgroundColor' : '#8BC84A' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
+							data.toggleOverlay.stop().animate({ 'left' : 0 }, data.settings.toggleSpeed);
+							data.toggleHandle.stop().animate({ 'left' : '50%' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
 								$this.prop('checked', true);
 								data.wrapper.addClass('on');
+
+								// Trigger the toggle on callback
+								if (data.settings.toggleOn) {
+									data.settings.toggleOn.call(this);
+								}
 							});
 						})
 						.on('uncheck', function() {
-							data.toggleSwitch.stop().animate({ 'left' : 0, 'backgroundColor' : '#CCC' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
+							data.toggleOverlay.stop().animate({ 'left' : '-100%' }, data.settings.toggleSpeed);
+							data.toggleHandle.stop().animate({ 'left' : 0 }, data.settings.toggleSpeed, 'easeOutQuad', function() {
 								$this.prop('checked', '');
-								data.wrapper.removeClass('on');	
+								data.wrapper.removeClass('on');
+
+								// Trigger the toggle off callback
+								if (data.settings.toggleOff) {
+									data.settings.toggleOff.call(this);
+								}
 							});
 						})
 						.on('click', function() {
-							if (data.settings.onClick.call(this)) {
-								if ($this.is(':checked')) {
-									data.toggleSwitch.stop().animate({ 'left' : '50%', 'backgroundColor' : '#8BC84A' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
-										data.wrapper.addClass('on');
-									});
-								} else {
-									data.toggleSwitch.stop().animate({ 'left' : '0', 'backgroundColor' : '#CCC' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
-										data.wrapper.removeClass('on');
-									});
-								}
+							if ($this.is(':checked')) {
+								$this.trigger('check');
+							} else {
+								$this.trigger('uncheck');
+							}
+
+							if (data.settings.click) {
+								data.settings.click.call(this);
 							}
 						});
 
 					}
 				}
+
+				return $this;
+
+			});
+
+		},
+
+		// Transfer the element classes to the wrapper
+		transferClasses : function() {
+			var $this = $(this),
+				data  = $this.data('reboot_forms');
+
+			data.wrapper.addClass($this.attr('class'));
+
+			if (data.settings.transferClasses === 'move') {
+				// Save the original classes in the data obj
+				data.origClass = $this.attr('class');
+
+				$this.removeAttr('class');	
+			}
+		},
+
+		// Revert the input back to it's original state
+		destroy : function() {
+
+			return this.each(function() {
+
+				var $this = $(this),
+					data  = $this.data('reboot_forms'),
+					id    = $this.attr('id');
+
+				// If the plugin was initialized, revert it
+				if (data) {
+
+					// Get the wrapper element
+					$wrapper = $this.closest('div[class*="-wrapper"]');
+
+					$this.insertBefore($wrapper);
+					$wrapper.remove();
+
+					// Remove the reboot_forms data attribute
+					$this.removeData('reboot_forms');
+
+				}
+
+				return $this;
 
 			});
 
@@ -458,8 +569,9 @@
 
 $(function() {
 	$('select').reboot_forms('selects');
-	$(':checkbox').reboot_forms('checkboxes');
+	$(':checkbox:not(".toggle")').reboot_forms('checkboxes');
 	$(':radio').reboot_forms('radios');
+	$(':checkbox.toggle').reboot_forms('toggles');
 });
 	</script>
 	<link rel="stylesheet" href="less/reboot.css">
@@ -482,7 +594,13 @@ $(function() {
 		</div>
 	</div>
 	<p><label><input type="radio" name="tester" id="form-test--tester--1" />Type your label here</label></p>
-	<p><label><input type="radio" name="tester" id="form-test--tester--2" />Type your label here</label></p>
+	<p><label><input type="radio" name="tester" id="form-test--tester--2" checked="checked" />Type your label here</label></p>
 	<p><label><input type="radio" name="tester" id="form-test--tester--3" />Type your label here</label></p>
+	<div class="control-group">
+		<label class="control-label" for=""></label>
+		<div class="controls">
+			<label><input type="checkbox" name="toggle" id="form-test--toggle" class="toggle special" checked="checked" />Turn this on or off?</label>
+		</div>
+	</div>
 </body>
 </html>

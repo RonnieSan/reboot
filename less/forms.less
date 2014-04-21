@@ -347,49 +347,72 @@ textarea {
 
 .toggle-wrapper {
 	.inline-block;
+	cursor:  pointer;
 	height: 30px;
+	margin-right: 5px;
 	position: relative;
+	vertical-align: middle;
 	width: 60px;
 
 	input {
 		.opacity(0);
-		cursor: pointer;
+		cursor:  pointer;
 		height: 30px;
 		left: 0;
+		margin: 0;
 		position: absolute;
 		top: 0;
 		width: 60px;
 		z-index: 30;
 	}
 
+	.overlay {
+		background-color: #8CC84A;
+		height: 100%;
+		left: -100%;
+		position: absolute;
+		width: 100%;
+		z-index: 10;
+	}
+
 	.groove {
 		background-color: #CCC;
 		height: 30px;
+		overflow: hidden;
+		position: relative;
 		width: 60px;
 		z-index: 0;
 
 		.toggle-on, .toggle-off {
 			color: #FFF;
-			float: left;
 			font-size: 9px;
 			height: 30px;
+			left: 0;
 			line-height: 30px;
+			position: absolute;
 			text-align: center;
 			text-transform: uppercase;
+			top: 0;
 			width: 30px;
+			z-index: 20;
 		}
 
 		.toggle-off {
 			color: #777;
 			float: right;
+			left: auto;
+			right: 0;
 		}
 	}
 
-	&.on .groove {
-		background-color: #8BC84A;
+	&.on {
+
+		.overlay {
+			left: 0;
+		}
 	}
 
-	.switch {
+	.handle {
 		background-color: #BBB;
 		border: 1px solid #AAA;
 		left: 0;
@@ -397,7 +420,7 @@ textarea {
 		position: absolute;
 		top: 0;
 		width: 30px;
-		z-index: 20px;
+		z-index: 30;
 	}
 
 }
