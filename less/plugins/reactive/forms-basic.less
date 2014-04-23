@@ -53,11 +53,24 @@ input[type='number'],
 	.groove {
 		.border-radius(100px);
 		overflow: hidden;
+
+		.toggle-on {
+			padding-left: 3px;
+		}
+
+		.toggle-off {
+			padding-right: 3px;
+		}
 	}
 
 	.handle {
 		.border-radius(100px);
 		.gradient(#E5E5E5, #E5E5E5, #F5F5F5);
+	}
+
+	&.focus {
+		.box-shadow(0 0 3px @colorPrimary);
+		.border-radius(20px);
 	}
 }
 

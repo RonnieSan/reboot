@@ -43,7 +43,7 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot_forms'),
+					data  = $this.data('reboot-forms'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
@@ -52,11 +52,11 @@
 					var isMulti = $this.attr('multiple');
 
 					// Create the data object
-					$this.data('reboot_forms', {
-						settings : settings,
-						target   : $this
+					$this.data('reboot-forms', {
+						'settings' : settings,
+						'target'   : $this
 					});
-					data = $this.data('reboot_forms');
+					data = $this.data('reboot-forms');
 					
 					// Create the data wrapper
 					var wrapperClass = (isMulti) ? 'multi-select-wrapper' : 'select-wrapper';
@@ -182,19 +182,19 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot_forms'),
+					data  = $this.data('reboot-forms'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
 				if (!data) {
 
 					// Create the data object
-					$this.data('reboot_forms', {
+					$this.data('reboot-forms', {
 						settings : settings,
 						target   : $this
 					});
 
-					data = $this.data('reboot_forms');
+					data = $this.data('reboot-forms');
 					
 					// Create the wrapper element
 					data.wrapper = $('<div class="radio-wrapper" />');
@@ -280,19 +280,19 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot_forms'),
+					data  = $this.data('reboot-forms'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
 				if (!data) {
 
 					// Create the data object
-					$this.data('reboot_forms', {
+					$this.data('reboot-forms', {
 						settings : settings,
 						target   : $this
 					});
 
-					data = $this.data('reboot_forms');
+					data = $this.data('reboot-forms');
 					
 					// Create the wrapper element
 					data.wrapper = $('<div class="checkbox-wrapper" />');
@@ -384,19 +384,19 @@
 				if ($(this).is(':checkbox')) {
 
 					var $this = $(this),
-						data  = $this.data('reboot_forms'),
+						data  = $this.data('reboot-forms'),
 						id    = $this.attr('id');
 
 					// If the plugin hasn't been initialized yet
 					if (!data) {
 
 						// Create the data object
-						$this.data('reboot_forms', {
+						$this.data('reboot-forms', {
 							settings : settings,
 							target   : $this
 						});
 
-						data = $this.data('reboot_forms');
+						data = $this.data('reboot-forms');
 						
 						// Create the wrapper element
 						data.wrapper = $('<div class="toggle-wrapper"></div>');
@@ -448,10 +448,10 @@
 
 						$this
 						.on('focus', function() {
-							data.wrapper.addClass('focused');
+							data.wrapper.addClass('focus');
 						})
 						.on('blur', function() {
-							data.wrapper.removeClass('focused');
+							data.wrapper.removeClass('focus');
 						})
 						.on('check', function() {
 							data.toggleOverlay.stop().animate({ 'left' : 0 }, data.settings.toggleSpeed);
@@ -501,7 +501,7 @@
 		// Transfer the element classes to the wrapper
 		transferClasses : function() {
 			var $this = $(this),
-				data  = $this.data('reboot_forms');
+				data  = $this.data('reboot-forms');
 
 			data.wrapper.addClass($this.attr('class'));
 
@@ -519,7 +519,7 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot_forms'),
+					data  = $this.data('reboot-forms'),
 					id    = $this.attr('id');
 
 				// If the plugin was initialized, revert it
@@ -531,8 +531,8 @@
 					$this.insertBefore($wrapper);
 					$wrapper.remove();
 
-					// Remove the reboot_forms data attribute
-					$this.removeData('reboot_forms');
+					// Remove the reboot-forms data attribute
+					$this.removeData('reboot-forms');
 
 				}
 
@@ -552,7 +552,7 @@
 		} else if (typeof method === 'object' || !method) {
 			return methods.init.apply(this, arguments);
 		} else {
-			$.error('Method ' +  method + ' does not exist for reboot_forms plugin.');
+			$.error('Method ' +  method + ' does not exist for the reboot_forms plugin.');
 		}
 	
 	};

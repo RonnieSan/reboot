@@ -1,9 +1,9 @@
-/*
- *
- * Reboot Validation
- * Version 2.0.0
- *
- */
+// --------------------------------------------------
+// REBOOT VALIDATION PLUGIN
+// Custom functions available for form validation
+// ©2014 by Reactive Apps
+// MIT License
+// --------------------------------------------------
 
 // This luhn formula is used during credit card number validation
 ;function luhn(s) {
@@ -198,13 +198,15 @@
 				settings = $.extend({
 
 					// Default options
-					errorClass       : 'invalid',
-					errorContainer   : $this.closest('.controls'),
-					errorElement     : this,
-					errorTemplate    : '<div class="form-error">{errorMsg}</div>',
-					onErrorCallback  : false,
-					onValidCallback  : false,
-					validationEvents : 'blur'
+					'errorClass'       : 'invalid',
+					'errorContainer'   : $this.closest('.controls'),
+					'errorElement'     : this,
+					'errorTemplate'    : '<div class="form-error">{errorMsg}</div>',
+					'validationEvents' : 'blur'
+
+					// Events
+					// 'error'  : function() {},
+					// 'valid'  : function() {}
 
 				}, options);
 
@@ -330,6 +332,13 @@
 				}
 
 			});
+
+			// Call the custom valid callback
+			if (result) {
+				if (typeof settings.valid === 'function') settings.valid.call($this);
+			} else {
+				if (typeof settings.error === 'function') settings.error.call($this);
+			}
 
 			return result;
 

@@ -1,0 +1,57 @@
+// --------------------------------------------------
+// MODAL STYLES
+// --------------------------------------------------
+
+.modal-overlay {
+	.opacity(0.65);
+	background-color: #000;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+.modal-container {
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1001;
+}
+
+.modal-wrapper {
+	.opacity(0);
+	background-color: #FFF;
+	display: block;
+	margin: auto;
+	position: relative;
+	width: 99%;
+
+	&.loading {
+		background-color: #F00;
+	}
+
+	.close-btn {
+		.border-radius(50px);
+		background-color: #F90000;
+		border: 2px solid #FFF;
+		cursor: pointer;
+		overflow: hidden;
+		position: absolute;
+		right: -10px;
+		text-align: center;
+		top: -10px;
+
+		i {
+			color: #FFF;
+		}
+	}
+
+	.modal-iframe {
+		.opacity(0);
+	}
+}
