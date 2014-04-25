@@ -5,21 +5,21 @@
 	<title>Test</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	<script src="js/plugins/forms/forms-v2.0.0.js"></script>
+	<script src="js/plugins/stylable/stylable-v2.0.0.js"></script>
+	<script src="js/plugins/zoetrope/zoetrope-v1.0.0.js"></script>
 	<script src="js/plugins/modal/modal-v2.0.0.js"></script>
 	<script>
 	$(function() {
-		$('select').reboot_forms('selects');
-		$(':checkbox:not(".toggle")').reboot_forms('checkboxes');
-		$(':radio').reboot_forms('radios');
-		$(':checkbox.toggle').reboot_forms('toggles');
+		$(document).stylable();
 
 		testModal = $.modal({
 			'type'    : 'iframe',
 			'url'     : 'iframe.html',
-			// 'content' : '#modal-test'
+			// 'content' : '#modal-test',
 			// 'width'   : 700
 		});
+
+		$('.loader').zoetrope({offset: 80, frames: 8});
 
 	});
 	</script>
@@ -33,9 +33,19 @@
 		background-color: #FFF;
 		width: 500px;
 	}
+	.loader {
+		background-image: url('img/loader-thin-segmented.png');
+		background-position: 0 0;
+		height: 80px;
+		width: 80px;
+		margin: 20px;
+	}
 	</style>
 </head>
 <body>
+	<div class="loader">
+		
+	</div>
 	<p><select name="test" id="form-test--test">
 		<option value="1">Option 1</option>
 		<option value="2">Option 2</option>

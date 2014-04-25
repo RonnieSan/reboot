@@ -99,6 +99,20 @@
 
 			case 'ajax':
 
+				// Create the loading graphic
+				modal.loader = $('<div class="loader"></div>')
+					.appendTo(modal.wrapper);
+
+				// Animate the loader
+				if ($().zoetrope) {
+					console.log('zoe');
+					modal.loader.zoetrope({
+						'frames' : 8,
+						'offset' : 80,
+						'speed'  : 50
+					});
+				}
+
 				// Add a loading class
 				modal.wrapper.addClass('loading');
 
@@ -114,6 +128,7 @@
 
 						// Remove the loading class
 						modal.wrapper.removeClass('loading');
+						modal.loader.zoetrope('destroy').remove();
 
 						// Append the content to the modal
 						modal.wrapper.append(modal.content);
@@ -124,6 +139,7 @@
 
 						// Remove the loading class
 						modal.wrapper.removeClass('loading');
+						modal.loader.zoetrope('destroy');
 
 						// Append the content to the modal
 						modal.wrapper.append(modal.content);
@@ -133,6 +149,20 @@
 				break;
 
 			case 'iframe':
+
+				// Create the loading graphic
+				modal.loader = $('<div class="loader"></div>')
+					.appendTo(modal.wrapper);
+
+				// Animate the loader
+				if ($().zoetrope) {
+					console.log('zoe');
+					modal.loader.zoetrope({
+						'frames' : 8,
+						'offset' : 80,
+						'speed'  : 50
+					});
+				}
 
 				// Add a loading class
 				modal.wrapper.addClass('loading');
@@ -151,6 +181,8 @@
 
 					// Remove the loading class
 					modal.wrapper.removeClass('loading');
+					modal.loader.zoetrope('destroy');
+					modal.loader.remove();
 
 					modal.content.contents().find('.close')
 						.on('click', function() {

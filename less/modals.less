@@ -31,8 +31,23 @@
 	position: relative;
 	width: 99%;
 
-	&.loading {
+	.loader {
+		background-image: url('../img/loader-thin-segmented.png');
+		background-position: 0 0;
+		display: none;
+		height: 80px;
+		left: 50%;
+		margin: -40px 0 0 -40px;
+		position: absolute;
+		top: 50%;
+		width: 80px;
+	}
 
+	&.loading {
+		
+		.loader {
+			display: block;
+		}
 	}
 
 	.close-btn {
