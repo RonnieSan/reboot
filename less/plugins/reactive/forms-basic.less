@@ -74,9 +74,24 @@ input[type='number'],
 	}
 }
 
+.button-maker(@text: #FFF, @bkg: #808080) {
+	.gradient(@bkg, @bkg, lighten(@bkg, 10%));
+	color: @text;
+
+	&:hover {
+		@hoverBkg: lighten(@bkg, 5%);
+		.gradient(@hoverBkg, @hoverBkg, lighten(@hoverBkg, 10%));
+	}
+
+	&:active {
+		@activeBkg: lighten(@bkg, 10%);
+		.gradient(@activeBkg, @activeBkg, lighten(@activeBkg, 10%));	
+	}
+}
+
 button {
+	.button-maker();
 	.border-radius(3px);
-	color: #333;
 	font-size: 0.875em;
 	font-weight: bold;
 	text-transform: uppercase;

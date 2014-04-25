@@ -140,7 +140,6 @@
 							// Set the content to the selected value
 							if ($this.attr('multiple')) {
 								var selectedValues = $this.val();
-								console.log(selectedValues);
 								data.wrapper.find('.option').removeClass(selectedClass);
 								$.each(selectedValues, function(index, value) {
 									data.wrapper.find('.option[data-value="' + value + '"]').addClass(selectedClass);
@@ -478,7 +477,6 @@
 							});
 						})
 						.on('click', function() {
-							console.log('Clicked');
 							if ($this.is(':checked')) {
 								$this.trigger('check');
 							} else {

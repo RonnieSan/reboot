@@ -3,8 +3,8 @@
 // --------------------------------------------------
 
 .modal-overlay {
-	.opacity(0.65);
 	background-color: #000;
+	display: none;
 	height: 100%;
 	left: 0;
 	position: fixed;
@@ -52,7 +52,7 @@
 
 	.close-btn {
 		.border-radius(50px);
-		background-color: #F90000;
+		background-color: #555;
 		border: 2px solid #FFF;
 		cursor: pointer;
 		overflow: hidden;
@@ -62,12 +62,12 @@
 		top: -10px;
 		z-index: 100;
 
+		&:hover {
+			background-color: #9F0115;
+		}
+
 		i {
 			color: #FFF;
 		}
-	}
-
-	.modal-iframe {
-		.opacity(0);
 	}
 }

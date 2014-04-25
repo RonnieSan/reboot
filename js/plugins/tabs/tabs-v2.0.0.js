@@ -6,7 +6,34 @@
 // --------------------------------------------------
 
 // Modify select fields
-;(function($){
+;(function($) {
+
+	$.tabs = function(options) {
+
+		// Create a new modal instance
+		var tabGroup = {};
+
+		// Create and make a reference to the modals array
+		var $doc = $(document);
+		if (!$doc.data('tabGroups')) {
+			$doc.data('tabGroups', []);
+		}
+		var tabGroups = $doc.data('tabGroups');
+
+		// Get the index based on the size of the modals array
+		tabGroup.index = tabGroups.length;
+		tabGroup.settings = $.extend({
+
+			'activeTab' : false
+
+			// Events
+			// 'switch' : function() {}
+
+		}, options);
+
+
+
+	}
 
 	var methods = {
 		

@@ -13,18 +13,35 @@
 		$(document).stylable();
 
 		testModal = $.modal({
-			'type'    : 'iframe',
-			'url'     : 'iframe.html',
-			// 'content' : '#modal-test',
+			'type'    : 'inline',
+			// 'url'     : 'iframe.html'
+			'content' : '#modal-test',
 			// 'width'   : 700
 		});
 
-		$('.loader').zoetrope({offset: 80, frames: 8});
+		secondModal = $.modal({
+			'type' : 'inline',
+			'content' : '#modal-other'
+		});
+
+		$('.modal-btn').click(openModal);
+
+		function openModal() {
+			testModal.open();
+
+			$('.modal-2-btn').click(function() {
+				console.log('Clicked');
+				secondModal.open();
+			});
+		}
 
 	});
 	</script>
 	<link rel="stylesheet" href="less/reboot.css">
 	<style>
+	body {
+		margin: 50px;
+	}
 	#modals {
 		display: none;
 	}
@@ -43,9 +60,6 @@
 	</style>
 </head>
 <body>
-	<div class="loader">
-		
-	</div>
 	<p><select name="test" id="form-test--test">
 		<option value="1">Option 1</option>
 		<option value="2">Option 2</option>
@@ -71,6 +85,10 @@
 			<label><input type="checkbox" name="toggle" id="form-test--toggle" class="toggle special" checked="checked" />Turn this on or off?</label>
 		</div>
 	</div>
+	<p>&nbsp;</p>
+	<div>
+		<button class="modal-btn">Open Modal</button>
+	</div>
 	<div id="modals">
 		<div id="modal-test" class="modal">
 			<header class="modal-header">
@@ -78,12 +96,14 @@
 			</header>
 			<div class="content">
 				<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Sed posuere consectetur est at lobortis. Donec id elit non mi porta gravida at eget metus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas faucibus mollis interdum. Sed posuere consectetur est at lobortis.</p>	
+				<button class="modal-2-btn">Open Another Modal</button>
 			</div>
 		</div>
 
 		<div id="modal-other" class="modal">
 			<header class="modal-header">
 				<h2>Another Modal</h2>
+				<p>This is a layered modal.</p>
 			</header>
 			<div class="content">
 				<p>This is another modal.</p>

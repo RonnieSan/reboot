@@ -24,23 +24,24 @@
 		modal.settings = $.extend({
 
 			// Default Options
-			'closable'       : true,
-			'closeButton'    : '<div class="close close-btn"><i class="re-x"></i></div>',
-			'content'        : false,
-			'easing'         : ['easeOutExpo', 'easeInExpo'],
-			'fadeInSpeed'    : 1000,
-			'formData'       : {},
-			'height'         : false,
-			'iFrameEl'       : '.wrapper',
-			'left'           : false,
-			'method'         : 'GET',
-			'modalID'        : false,
-			'resizeSpeed'    : 350,
-			'scrollable'     : false,
-			'top'            : 80,
-			'type'           : 'inline',
-			'width'          : false,
-			'url'            : false
+			'closable'        : true,
+			'closeButton'     : '<div class="close close-btn"><i class="re-x"></i></div>',
+			'content'         : false,
+			'easing'          : ['easeOutExpo', 'easeInExpo'],
+			'formData'        : {},
+			'height'          : false,
+			'iFrameEl'        : '.wrapper',
+			'left'            : false,
+			'method'          : 'GET',
+			'modalID'         : false,
+			'overlayOpacity'  : 0.65,
+			'resizeSpeed'     : 350,
+			'scrollable'      : false,
+			'top'             : 80,
+			'transitionSpeed' : 500,
+			'type'            : 'inline',
+			'width'           : false,
+			'url'             : false
 
 			// Events
 			// 'open'         : function() {},
@@ -72,16 +73,8 @@
 		// Add the close button to the modal
 		if (modal.settings.closable) {
 			$(modal.settings.closeButton)
-				.prependTo(modal.wrapper)
-				.on('click', function() {
-					modal.close();
-				});
+				.prependTo(modal.wrapper);
 		}
-
-		// Prevent a click in the modal to trigger a click on the container
-		modal.wrapper.on('click', function(event) {
-			event.stopPropagation();
-		});
 
 		// Load the content into the modal
 		switch (modal.settings.type) {
@@ -105,7 +98,6 @@
 
 				// Animate the loader
 				if ($().zoetrope) {
-					console.log('zoe');
 					modal.loader.zoetrope({
 						'frames' : 8,
 						'offset' : 80,
@@ -156,7 +148,6 @@
 
 				// Animate the loader
 				if ($().zoetrope) {
-					console.log('zoe');
 					modal.loader.zoetrope({
 						'frames' : 8,
 						'offset' : 80,
@@ -168,11 +159,23 @@
 				modal.wrapper.addClass('loading');
 
 				// Create the iframe
-				modal.content = $('<iframe id="' + modal.id + '--iframe" class="modal-iframe" name="' + modal.id + '--content" src="' + modal.settings.url + '" width="100%" height="100%" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" />')
+				modal.content = $('<iframe />', {
+						'class'        : 'modal-iframe',
+						'frameborder'  : 0,
+						'height'       : '100%',
+						'id'           : modal.id + '--iframe',
+						'marginheight' : 0,
+						'marginwidth'  : 0,
+						'name'         : modal.id + '--content',
+						'scrolling'    : 'no',
+						'src'          : modal.settings.url,
+						'width'        : '100%'
+					})
 					.css({
 						'display'        : 'block',
 						'vertical-align' : 'bottom'
-					});
+					})
+					.hide();
 
 				// Append the content to the modal
 				modal.wrapper.append(modal.content);
@@ -184,35 +187,29 @@
 					modal.loader.zoetrope('destroy');
 					modal.loader.remove();
 
-					modal.content.contents().find('.close')
-						.on('click', function() {
-							modal.close.call(modal);
-						});
+					if (modal.content.contents()) {
+						modal.content.contents().find('.close')
+							.on('click', function() {
+								modal.close.call(modal);
+							});
 
-					// Set a reference to the parent modal in the iframe
-					modal.content.contentWindow.parentModal = modal;
+						// Set a reference to the parent modal in the iframe
+						modal.content.contents().parentModal = modal;
 
-					// Update the height of the iframe
-					if (modal.settings.height === false) {
-						modal.content.contents().find(modal.settings.iFrameEl).on('resize', function() {
-							modal.fit.call(modal);
-						});
+						// Update the height of the iframe
+						if (modal.settings.height === false) {
+							modal.content.contents().find(modal.settings.iFrameEl).on('resize', function() {
+								modal.fit.call(modal);
+							});
+						}
 					}
 
 					// Fade in the iFrame
-					modal.content.animate({'opacity' : 1}, 100);
+					modal.content.fadeIn(500);
 				});
 
 				break;
 
-		}
-
-		// Clicking anything in the modal with the .close class will close the modal
-		if (modal.settings.type !== 'iframe') {
-			modal.content.find('.close')
-				.on('click', function() {
-					methods.close.call(modal);
-				});
 		}
 
 		// --------------------------------------------------
@@ -257,7 +254,7 @@
 
 			// Set the dimensions
 			var dimensions = {};
-			if (modal.settings.type == 'iframe') {
+			if (modal.settings.type == 'iframe' && modal.content.contents()) {
 				// Resize the iframe width and height
 				fitWidth  = modal.content.contents().find(iFrameEl).width() + 'px';
 				fitHeight = modal.content.contents().find(iFrameEl).height() + 'px';
@@ -286,6 +283,11 @@
 				modal.settings.open.call(modal);
 			}
 
+			// Prevent a click in the modal to trigger a click on the container
+			modal.wrapper.on('click', function(event) {
+				event.stopPropagation();
+			});
+
 			// Create the overlay and modal container
 			modal.overlay   = $('<div class="modal-overlay"></div>');
 			modal.container = $('<div class="modal-container"></div>');
@@ -296,10 +298,15 @@
 					modal.close();
 				});
 			}
+			// Clicking anything in the modal with the .close class will close the modal
+			modal.wrapper.find('.close')
+				.on('click', function() {
+					modal.close();
+				});
 
 			// Set what layer the modal should be on
 			var layers = $('.modal-wrapper.open').length,
-				layer  = layers * 10 + 1000;
+				layer  = (layers * 1000) + 1000;
 
 			// Make the modal closable
 			if (modal.settings.closable) {
@@ -337,39 +344,34 @@
 			document.body.style.overflow = 'hidden';
 
 			// Set the size of the modal
-			resizeOptions = {
-				'speed' : 0
-			};
+			resizeOptions = { 'speed' : 0 };
 			resizeOptions.height = modal.settings.height || modal.content.height();
 			resizeOptions.width = modal.settings.width || modal.content.width();
 			modal.resize(resizeOptions);
 
 			// Fade in the overlay
-			if ($('.modal-overlay:visible').length > 0) {
-				$('.modal-overlay:visible').hide();
-				modal.overlay.show();
+			if ($('.modal-overlay.open').length > 0) {
+				$('.modal-overlay.open').hide();
+				modal.overlay.fadeTo(0, modal.settings.overlayOpacity);
 				modal.overlay.css('z-index', layer - 10);
 			} else {
-				modal.overlay.fadeIn(100, function() {
-					// We gots to do this for FireFox
-					if (modal.settings.type === 'iframe' && modal.content.contents()) {
-						modal.wrapper.height(modal.content.contents().height());
-					}
-				});
+				modal.overlay
+					.fadeTo(modal.settings.transitionSpeed, modal.settings.overlayOpacity, 'easeOutQuad', function() {
+						// We gots to do this for FireFox
+						if (modal.settings.type === 'iframe' && modal.content.contents()) {
+							modal.wrapper.height(modal.content.contents().height());
+						}
+					});
 			}
-
-			// Add the 'open' class
-			modal.wrapper.addClass('open');
-			modal.overlay.addClass('open');
 
 			// Fade in the modal window
 			modal.wrapper
-				.delay(100)
+				// .delay(100)
 				.animate({
 						'opacity'    : 1,
 						'margin-top' : '+=30'
 					},
-					modal.settings.fadeInSpeed,
+					modal.settings.transitionSpeed,
 					modal.settings.easing[0],
 					function() {
 						// Fire the ready callback
@@ -377,6 +379,10 @@
 							modal.settings.ready.call(modal);
 						}
 					});
+
+			// Add the 'open' class
+			modal.wrapper.addClass('open');
+			modal.overlay.addClass('open');
 
 			// Return modal to make it chainable
 			return modal;
@@ -400,18 +406,20 @@
 						'opacity'    : 0,
 						'margin-top' : '+=30'
 					},
-					modal.settings.fadeInSpeed / 2,
+					modal.settings.transitionSpeed / 2,
 					modal.settings.easing[1],
 					function() {
 						modal.wrapper.removeClass('open');
 						modal.overlay.removeClass('open');
 						modal.container.remove();
 
-						// Remove the overlay and container
+						// Open the next overlay
 						if ($('.modal-overlay.open').length > 0) {
 							$('.modal-overlay.open').last().fadeIn(50);
 						}
-						modal.overlay.fadeOut(250, function() {
+
+						// Fade out and remove the overlay
+						modal.overlay.fadeOut(100, function() {
 							modal.overlay.remove();
 						});
 
