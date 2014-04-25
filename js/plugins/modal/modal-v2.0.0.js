@@ -190,7 +190,7 @@
 					if (modal.content.contents()) {
 						modal.content.contents().find('.close')
 							.on('click', function() {
-								modal.close.call(modal);
+								modal.close();
 							});
 
 						// Set a reference to the parent modal in the iframe
@@ -199,7 +199,7 @@
 						// Update the height of the iframe
 						if (modal.settings.height === false) {
 							modal.content.contents().find(modal.settings.iFrameEl).on('resize', function() {
-								modal.fit.call(modal);
+								modal.fit();
 							});
 						}
 					}
