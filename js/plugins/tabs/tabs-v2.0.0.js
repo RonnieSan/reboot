@@ -10,9 +10,6 @@
 
 	$.tabs = function(options) {
 
-		// Create a new modal instance
-		var tabGroup = {};
-
 		// Create and make a reference to the modals array
 		var $doc = $(document);
 		if (!$doc.data('tabGroups')) {
@@ -20,18 +17,35 @@
 		}
 		var tabGroups = $doc.data('tabGroups');
 
-		// Get the index based on the size of the modals array
-		tabGroup.index = tabGroups.length;
-		tabGroup.settings = $.extend({
+		// Load the settings that were passed in
+		var settings = $.extend({
 
-			'activeTab' : false
+			'selector'  : '.tab'
 
 			// Events
+			// 'load'   : function() {}
 			// 'switch' : function() {}
 
 		}, options);
 
+		tabGroups.select.call(tabGroups, );
 
+		$(settings.selector).on('click', function() {
+
+			var $this = $(this);
+
+			// Handle the click event
+
+
+			if ($this.not('.active')) {
+
+			}
+
+		});
+
+		tabGroups.select = function(tabID) {
+
+		}
 
 	}
 
