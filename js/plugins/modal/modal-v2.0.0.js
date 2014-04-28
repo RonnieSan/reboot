@@ -253,7 +253,7 @@
 		modal.fit = function(fitWidth, el, callback) {
 
 			// The el argument is optional
-			if (typeof el === function) {
+			if (typeof el === 'function') {
 				callback = el;
 				iFrameEl = modal.settings.iFrameEl;
 			} else {
