@@ -252,6 +252,14 @@
 		// Resize the modal to fit the contents
 		modal.fit = function(fitWidth, el, callback) {
 
+			// The el argument is optional
+			if (typeof el === function) {
+				callback = el;
+				iFrameEl = modal.settings.iFrameEl;
+			} else {
+				iFrameEl = el || modal.settings.iFrameEl;
+			}
+
 			// Set the dimensions
 			var dimensions = {};
 			if (modal.settings.type == 'iframe' && modal.content.contents()) {
@@ -265,7 +273,7 @@
 
 			dimensions.height = fitHeight;
 			if (fitWidth) {
-				dimensions.maxWidth = fitWidth;
+				dimensions.width = fitWidth;
 			}
 
 			// Call the resize function with our new dimensions
