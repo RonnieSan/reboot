@@ -24,12 +24,25 @@
 }
 
 .modal-wrapper {
+	.box-shadow(0 0 20px rgba(0,0,0,0.1));
 	.opacity(0);
 	background-color: #FFF;
 	display: block;
 	margin: auto;
+	height: 300px;
+	max-width: 500px;
 	position: relative;
 	width: 99%;
+
+	.content-wrapper {
+		height: 100%;
+		overflow: hidden;
+		width: 100%;
+
+		iframe {
+			vertical-align: baseline;
+		}
+	}
 
 	.loader {
 		background-image: url('../img/loader-thin-segmented.png');

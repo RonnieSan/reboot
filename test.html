@@ -13,10 +13,12 @@
 		$(document).stylable();
 
 		testModal = $.modal({
-			'type'    : 'inline',
-			// 'url'     : 'iframe.html'
-			'content' : '#modal-test',
-			// 'width'   : 700
+			'type'     : 'ajax',
+			'url'      : 'http://www.reboot.dev/iframe.html',
+			'iFrameEl' : '.wrapper',
+			// 'type'     : 'inline',
+			// 'content' : '#modal-test'
+			'width'    : 700
 		});
 
 		secondModal = $.modal({
@@ -30,7 +32,6 @@
 			testModal.open();
 
 			$('.modal-2-btn').click(function() {
-				console.log('Clicked');
 				secondModal.open();
 			});
 		}
@@ -48,6 +49,7 @@
 
 	#modal-test {
 		background-color: #FFF;
+		padding: 30px;
 		width: 500px;
 	}
 	.loader {

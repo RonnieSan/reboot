@@ -5,6 +5,16 @@
 // MIT License
 // --------------------------------------------------
 
+;/*
+ * jQuery resize event - v1.1 - 3/14/2010
+ * http://benalman.com/projects/jquery-resize-plugin/
+ * 
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
+
 ;(function($) {
 
 	$.modal = function(options) {
@@ -24,6 +34,7 @@
 		modal.settings = $.extend({
 
 			// Default Options
+			'autoResize'      : true,
 			'closable'        : true,
 			'closeButton'     : '<div class="close close-btn"><i class="re-x"></i></div>',
 			'content'         : false,
@@ -56,24 +67,25 @@
 
 		// Create the wrapper element
 		modal.wrapper = $('<div class="modal-wrapper"></div>');
+		modal.contentWrapper = $('<div class="content-wrapper"></div>');
+		modal.wrapper.append(modal.contentWrapper);
+
+		// Set the dimensions
+		if (modal.settings.width !== false) {
+			modal.wrapper.css('maxWidth', modal.settings.width);
+		}
+		if (modal.settings.height !== false) {
+			modal.wrapper.css('maxHeight', modal.settings.height);
+		}
 
 		// Apply some settings to the wrapper element
 		if (modal.settings.scrollable) {
 			modal.wrapper.css('overflow', 'auto');
 		}
 
-		// Set the initial width and height of the modal
-		if (modal.settings.width === false) {
-			modal.wrapper.width(500);
-		}
-		if (modal.settings.height === false) {
-			modal.wrapper.height(300);
-		}
-
 		// Add the close button to the modal
 		if (modal.settings.closable) {
-			$(modal.settings.closeButton)
-				.prependTo(modal.wrapper);
+			modal.wrapper.prepend($(modal.settings.closeButton));
 		}
 
 		// Load the content into the modal
@@ -86,7 +98,7 @@
 				modal.content = $(modal.settings.content);
 
 				// Append the content to the modal
-				modal.wrapper.append(modal.content);
+				modal.contentWrapper.append(modal.content);
 
 				break;
 
@@ -94,7 +106,7 @@
 
 				// Create the loading graphic
 				modal.loader = $('<div class="loader"></div>')
-					.appendTo(modal.wrapper);
+					.appendTo(modal.contentWrapper);
 
 				// Animate the loader
 				if ($().zoetrope) {
@@ -123,18 +135,19 @@
 						modal.loader.zoetrope('destroy').remove();
 
 						// Append the content to the modal
-						modal.wrapper.append(modal.content);
+						modal.contentWrapper.append(modal.content);
 					},
 
 					'error' : function() {
 						modal.content = $('<p>Unable to retrieve content...</p>');
+						modal.content.height(300);
 
 						// Remove the loading class
 						modal.wrapper.removeClass('loading');
 						modal.loader.zoetrope('destroy');
 
 						// Append the content to the modal
-						modal.wrapper.append(modal.content);
+						modal.contentWrapper.append(modal.content);
 					}
 				});
 
@@ -178,7 +191,7 @@
 					.hide();
 
 				// Append the content to the modal
-				modal.wrapper.append(modal.content);
+				modal.contentWrapper.append(modal.content);
 
 				modal.content.load(function() {
 
@@ -195,17 +208,29 @@
 
 						// Set a reference to the parent modal in the iframe
 						modal.content.contents().parentModal = modal;
+					}
 
-						// Update the height of the iframe
-						if (modal.settings.height === false) {
-							modal.content.contents().find(modal.settings.iFrameEl).on('resize', function() {
+					// Bind the resize event handlers
+					if (modal.settings.autoResize) {
+						modal.content.contents().find(modal.settings.iFrameEl).on('resize', function() {
+							if (!modal.wrapper.is(':animated')) {
 								modal.fit();
-							});
-						}
+							}
+						});
+					}
+
+					var fitOptions = {};
+					if (modal.settings.width !== false) {
+						fitOptions.fitWidth = false;
+					}
+					if (modal.settings.height !== false) {
+						fitOptions.fitHeight = false;
 					}
 
 					// Fade in the iFrame
-					modal.content.fadeIn(500);
+					modal.fit(fitOptions, function() {
+						modal.content.fadeIn(500);
+					});
 				});
 
 				break;
@@ -216,21 +241,26 @@
 		// METHODS
 
 		// Resize the modal to a specific measurement
-		modal.resize = function(options, callback) {
+		modal.resizeModal = function(options, callback) {
 
 			var newSize = {};
 
 			// Set the new dimensions
-			if (options.width) newSize.maxWidth = options.width;
+			if (options.width) {
+				newSize.maxWidth = options.width;
+				newSize.width    = 'auto';
+			}
 			if (options.height) {
 				newSize.height = options.height;
 			} else {
 				if (modal.settings.type == 'iframe' && modal.content.contents()) {
-					newSize.height = modal.content.contents().height() + 'px';
+					newSize.height = modal.content.contents().outerHeight() + 'px';
 				} else {
-					newSize.height = 'auto';
+					newSize.height = modal.content.outerHeight() + 'px';
 				}
 			}
+
+			console.log(newSize.height);
 
 			if (typeof callback !== 'function') {
 				callback = function() {};
@@ -239,9 +269,6 @@
 			speed = options.speed || modal.settings.resizeSpeed;
 
 			// Animate to the new size
-			if (modal.settings.type === 'iframe') {
-				modal.content.css(newSize);
-			}
 			modal.wrapper.animate(newSize, speed, 'easeOutQuint', callback);
 
 			// Return modal to make it chainable
@@ -250,34 +277,37 @@
 		};
 
 		// Resize the modal to fit the contents
-		modal.fit = function(fitWidth, el, callback) {
+		modal.fit = function(options, callback) {
 
 			// The el argument is optional
-			if (typeof el === 'function') {
-				callback = el;
+			if (typeof options === 'function') {
+				callback = options;
 				iFrameEl = modal.settings.iFrameEl;
 			} else {
-				iFrameEl = el || modal.settings.iFrameEl;
+				var options = options || {};
+				iFrameEl = options.iFrameEl || modal.settings.iFrameEl;
 			}
 
 			// Set the dimensions
 			var dimensions = {};
 			if (modal.settings.type == 'iframe' && modal.content.contents()) {
 				// Resize the iframe width and height
-				fitWidth  = modal.content.contents().find(iFrameEl).width() + 'px';
-				fitHeight = modal.content.contents().find(iFrameEl).height() + 'px';
+				fitWidth  = modal.content.contents().find(iFrameEl).outerWidth() || $(window).width() - 20;
+				fitHeight = modal.content.contents().find(iFrameEl).outerHeight() || $(window).width() - 20;
 			} else {
-				fitWidth  = modal.content.width() + 'px';
-				fitHeight = modal.content.height() + 'px';
+				fitWidth  = modal.content.outerWidth();
+				fitHeight = modal.content.outerHeight();
 			}
 
-			dimensions.height = fitHeight;
-			if (fitWidth) {
-				dimensions.width = fitWidth;
+			if (options.fitWidth !== false) {
+				dimensions.width = fitWidth + 'px';
+			}
+			if (options.fitHeight !== false) {
+				dimensions.height = fitHeight + 'px';
 			}
 
 			// Call the resize function with our new dimensions
-			modal.resize(dimensions, callback);
+			modal.resizeModal(dimensions, callback);
 
 			// Return modal to make it chainable
 			return modal;
@@ -306,15 +336,12 @@
 					modal.close();
 				});
 			}
+
 			// Clicking anything in the modal with the .close class will close the modal
 			modal.wrapper.find('.close')
 				.on('click', function() {
 					modal.close();
 				});
-
-			// Set what layer the modal should be on
-			var layers = $('.modal-wrapper.open').length,
-				layer  = (layers * 1000) + 1000;
 
 			// Make the modal closable
 			if (modal.settings.closable) {
@@ -331,6 +358,19 @@
 				});
 			}
 
+			// Bind the resize event handlers
+			if (modal.settings.autoResize && modal.settings.type !== 'iframe') {
+				modal.content.on('resize', function() {
+					if (!modal.wrapper.is(':animated')) {
+						modal.fit();
+					}
+				});
+			}
+
+			// Set what layer the modal should be on
+			var layers = $('.modal-wrapper.open').length,
+				layer  = (layers * 1000) + 1000;
+
 			// Reset the top margin
 			var dropSpot = modal.settings.top - 30;
 			if ($(window).width() < 700) {
@@ -345,17 +385,29 @@
 			// Append the modal to the container
 			modal.container.append(modal.wrapper);
 
+			// First add it to the far left
+			modal.wrapper.css('left', '-9999px');
+
 			// Append the overlay and container to the body
 			$('body').append(modal.overlay).append(modal.container);
 
+			// Bring it to the center
+			modal.wrapper.css('left', '');
+
+			var fitOptions = {};
+			if (modal.settings.width !== false) {
+				fitOptions.fitWidth = false;
+			}
+			if (modal.settings.height !== false) {
+				fitOptions.fitHeight = false;
+			}
+
+			if (modal.settings.type !== 'iframe') {
+				modal.fit(fitOptions);
+			}
+
 			// Keep the background from scrolling
 			document.body.style.overflow = 'hidden';
-
-			// Set the size of the modal
-			resizeOptions = { 'speed' : 0 };
-			resizeOptions.height = modal.settings.height || modal.content.height();
-			resizeOptions.width = modal.settings.width || modal.content.width();
-			modal.resize(resizeOptions);
 
 			// Fade in the overlay
 			if ($('.modal-overlay.open').length > 0) {
@@ -406,6 +458,15 @@
 
 			// Unbind the keyup function
 			$(document).off('keyup', modal.keyupFn);
+
+			// Unbind resize event handlers
+			if (modal.settings.autoResize) {
+				var contents = modal.content;
+				if (modal.settings.type === 'iframe') {
+					contents = modal.content.contents().find(modal.settings.iFrameEl);
+				}
+				contents.off('resize');
+			}
 
 			// Drop the modal
 			modal.wrapper
