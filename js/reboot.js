@@ -102,8 +102,8 @@ var reboot_init = function() {
 	// FORM STYLING
 
 	// Make all form elements styleable
-	if (jQuery().reboot_forms) {
-		$(document).reboot_forms();
+	if (jQuery().stylable) {
+		$(document).stylable();
 	}
 
 	// END FORM STYLING
