@@ -86,7 +86,7 @@ var reboot_init = function() {
 
 	// Add a last-child class to all last-child elements for compatibility in IE8-
 	if (!jQuery.support.leadingWhitespace) {
-		$('ul:last-child, ol:last-child, li:last-child, tr:last-child, th:last-child, td:last-child, .column:last-child, .row:last-child').addClass('last-child');
+		$('ul:last-child, ol:last-child, li:last-child, tr:last-child, th:last-child, td:last-child, .column:last-child, .row:last-child').addClass('last-child').css('background-color', '#F00');
 	}
 
 	// Add the .striped class to odd table rows in striped tables
