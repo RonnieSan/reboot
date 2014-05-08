@@ -260,8 +260,6 @@
 				}
 			}
 
-			console.log(newSize.height);
-
 			if (typeof callback !== 'function') {
 				callback = function() {};
 			}

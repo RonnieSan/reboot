@@ -43,7 +43,7 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot-forms'),
+					data  = $this.data('stylable'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
@@ -52,11 +52,11 @@
 					var isMulti = $this.attr('multiple');
 
 					// Create the data object
-					$this.data('reboot-forms', {
+					$this.data('stylable', {
 						'settings' : settings,
 						'target'   : $this
 					});
-					data = $this.data('reboot-forms');
+					data = $this.data('stylable');
 					
 					// Create the data wrapper
 					var wrapperClass = (isMulti) ? 'multi-select-wrapper' : 'select-wrapper';
@@ -181,19 +181,19 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot-forms'),
+					data  = $this.data('stylable'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
 				if (!data) {
 
 					// Create the data object
-					$this.data('reboot-forms', {
+					$this.data('stylable', {
 						settings : settings,
 						target   : $this
 					});
 
-					data = $this.data('reboot-forms');
+					data = $this.data('stylable');
 					
 					// Create the wrapper element
 					data.wrapper = $('<div class="radio-wrapper" />');
@@ -279,19 +279,19 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot-forms'),
+					data  = $this.data('stylable'),
 					id    = $this.attr('id');
 
 				// If the plugin hasn't been initialized yet
 				if (!data) {
 
 					// Create the data object
-					$this.data('reboot-forms', {
+					$this.data('stylable', {
 						settings : settings,
 						target   : $this
 					});
 
-					data = $this.data('reboot-forms');
+					data = $this.data('stylable');
 					
 					// Create the wrapper element
 					data.wrapper = $('<div class="checkbox-wrapper" />');
@@ -383,19 +383,19 @@
 				if ($(this).is(':checkbox')) {
 
 					var $this = $(this),
-						data  = $this.data('reboot-forms'),
+						data  = $this.data('stylable'),
 						id    = $this.attr('id');
 
 					// If the plugin hasn't been initialized yet
 					if (!data) {
 
 						// Create the data object
-						$this.data('reboot-forms', {
+						$this.data('stylable', {
 							settings : settings,
 							target   : $this
 						});
 
-						data = $this.data('reboot-forms');
+						data = $this.data('stylable');
 						
 						// Create the wrapper element
 						data.wrapper = $('<div class="toggle-wrapper"></div>');
@@ -440,12 +440,14 @@
 							.append(data.toggleText);
 							
 						// Toggle on by default if the checkbox is checked
+						data.state = 'off';
 						if ($this.is(':checked')) {
 							data.wrapper.addClass('on');
 							data.toggleHandle.css('left', '50%');
+							data.state = 'on';
 						}
 
-						$this
+						data.wrapper
 						.on('focus', function() {
 							data.wrapper.addClass('focus');
 						})
@@ -457,6 +459,7 @@
 							data.toggleHandle.stop().animate({ 'left' : '50%' }, data.settings.toggleSpeed, 'easeOutQuad', function() {
 								$this.prop('checked', true);
 								data.wrapper.addClass('on');
+								data.state = 'on';
 
 								// Trigger the toggle on callback
 								if (data.settings.toggleOn) {
@@ -469,6 +472,7 @@
 							data.toggleHandle.stop().animate({ 'left' : 0 }, data.settings.toggleSpeed, 'easeOutQuad', function() {
 								$this.prop('checked', '');
 								data.wrapper.removeClass('on');
+								data.state = 'off';
 
 								// Trigger the toggle off callback
 								if (data.settings.toggleOff) {
@@ -477,14 +481,12 @@
 							});
 						})
 						.on('click', function() {
-							if ($this.is(':checked')) {
-								$this.trigger('check');
-							} else {
-								$this.trigger('uncheck');
-							}
-
-							if (data.settings.click) {
-								data.settings.click.call(this);
+							if ((typeof data.settings.click != 'function') || (typeof data.settings.click == 'function' && data.settings.click.call($this) !== false)) {
+								if (data.state === 'off') {
+									$this.trigger('check');
+								} else {
+									$this.trigger('uncheck');
+								}
 							}
 						});
 
@@ -500,7 +502,7 @@
 		// Transfer the element classes to the wrapper
 		transferClasses : function() {
 			var $this = $(this),
-				data  = $this.data('reboot-forms');
+				data  = $this.data('stylable');
 
 			data.wrapper.addClass($this.attr('class'));
 
@@ -518,7 +520,7 @@
 			return this.each(function() {
 
 				var $this = $(this),
-					data  = $this.data('reboot-forms'),
+					data  = $this.data('stylable'),
 					id    = $this.attr('id');
 
 				// If the plugin was initialized, revert it
@@ -530,8 +532,8 @@
 					$this.insertBefore($wrapper);
 					$wrapper.remove();
 
-					// Remove the reboot-forms data attribute
-					$this.removeData('reboot-forms');
+					// Remove the stylable data attribute
+					$this.removeData('stylable');
 
 				}
 
