@@ -447,7 +447,7 @@
 							data.state = 'on';
 						}
 
-						data.wrapper
+						$this
 						.on('focus', function() {
 							data.wrapper.addClass('focus');
 						})
@@ -482,7 +482,7 @@
 						})
 						.on('click', function() {
 							if ((typeof data.settings.click != 'function') || (typeof data.settings.click == 'function' && data.settings.click.call($this) !== false)) {
-								if (data.state === 'off') {
+								if ($this.prop('checked') == true) {
 									$this.trigger('check');
 								} else {
 									$this.trigger('uncheck');
