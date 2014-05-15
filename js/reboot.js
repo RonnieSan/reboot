@@ -89,11 +89,6 @@ var reboot_init = function() {
 		$('ul:last-child, ol:last-child, li:last-child, tr:last-child, th:last-child, td:last-child, .column:last-child, .row:last-child').addClass('last-child').css('background-color', '#F00');
 	}
 
-	// Add the .striped class to odd table rows in striped tables
-	if ($('table.striped').size() > 0) {
-		$('table.striped tbody').find('tr:odd').addClass('striped');
-	}
-
 	// END IE8 COMPATIBILITY
 	// --------------------------------------------------
 
