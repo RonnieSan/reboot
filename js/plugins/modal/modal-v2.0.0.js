@@ -313,7 +313,7 @@
 		};
 
 		// Open the modal
-		modal.open = function() {
+		modal.open = function(callback) {
 
 			if (typeof modal.settings.open === 'function') {
 				modal.settings.open.call(modal);
@@ -436,6 +436,11 @@
 						if (typeof modal.settings.ready === 'function') {
 							modal.settings.ready.call(modal);
 						}
+
+						// Fire the passed in callback
+						if (typeof callback === 'function') {
+							callback.call(modal);
+						}
 					});
 
 			// Add the 'open' class
@@ -447,7 +452,7 @@
 
 		};
 
-		modal.close = function() {
+		modal.close = function(callback) {
 
 			// Fire the close callback
 			if (typeof modal.settings.close === 'function') {
@@ -493,6 +498,9 @@
 						// Fire the closed callback
 						if (typeof modal.settings.closed === 'function') {
 							modal.settings.closed.call(modal);
+						}
+						if (typeof callback === 'function') {
+							callback.call(modal);
 						}
 
 						// Make the body scrollable again
