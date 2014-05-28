@@ -315,6 +315,9 @@
 
 					}
 
+					// Return false so the errors don't stack
+					return false;
+
 				} else {
 
 					// Remove the error element from the page
