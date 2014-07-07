@@ -51,7 +51,7 @@
 
 		// Create a custom rule
 		custom : function(functionName, functionArgs) {
-			if (typeof(functionName) == 'function') {
+			if (typeof(functionName) == 'function' && functionArgs) {
 				return functionName.apply(this, functionArgs);
 			} else {
 				return true;
@@ -178,19 +178,10 @@
             return re.test(this.val());
         }
 
-	}
+	};
 
 	// Callable methods
 	var methods = {
-
-		// Add settings to objects
-		init : function(options) {
-
-			return this.each(function() {
-				methods.settings.apply(this, options);
-			});
-
-		},
 
 		settings : function(options) {
 
@@ -213,6 +204,15 @@
 			if (!$this.data('validation-settings')) {
 				$this.data('validation-settings', settings);
 			}
+
+		},
+
+		// Add settings to objects
+		init : function(options) {
+
+			return this.each(function() {
+				if( options ) methods['settings'].apply(this, options);
+			});
 
 		},
 
@@ -263,20 +263,21 @@
 
 		validateField : function() {
 
-			var $this    = $(this),
+			var $this = $(this),
 				settings = $this.data('validation-settings');
 
 			// Get the validation rules
-			var validationRules = $this.data('validation-rules') || [];
+			var validationRules = $this.data('validation-rules') || {args: null};
 			
 			// Set the result to true to begin with
 			var result = true;
 
 			// Loop through all the validation rules
 			$.each(validationRules, function(index, rule) {
-
+				var isIE = document.all && document.querySelector;
 				// Test the field value against the rule definition
-				result = rules[rule.rule].apply($this, rule.args);
+				
+				if( rule && rule !== null && rule.rule && rule.args ) result = rules[rule.rule].apply($this, rule.args);
 
 				// Add the error if the value is invalid
 				if (!result) {

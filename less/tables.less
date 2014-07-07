@@ -43,9 +43,11 @@ table {
 	> tbody {
 
 		> tr {
-			
+			td {
+				background-color: #ffffff !important;
+			}
 			&.striped > td {
-				background-color: @tableRowAltColor;
+				background-color: @tableRowAltColor !important;
 			}
 
 			&:hover > td {
@@ -63,7 +65,7 @@ table.striped {
 	> tbody {
 		> tr:nth-child(2n-1) {
 			> td {
-				background-color: @tableRowAltColor;
+				background-color: @tableRowAltColor !important;
 			}
 		}
 	}
