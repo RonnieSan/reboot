@@ -14,7 +14,7 @@
 			var settings = $.extend({
 
 				// Default Options
-				activeTab    : false
+				activeTab : window.location.hash.replace('#', '')
 
 			}, options);
 
@@ -28,9 +28,11 @@
 
 				// Activate the initial tab in the options
 				if (settings.activeTab) {
+
+					console.log(settings);
 					
 					// Activate the initial tab from settings
-					$(settings.activeTab).tabs('select');
+					$('[data-tab-content-id=' + settings.activeTab + ']').tabs('select');
 
 				}
 
@@ -54,6 +56,7 @@
 				$('[data-tab-group="' + tabGroup + '"]').removeClass('active');
 				$this.addClass('active');
 				$('#' + tabContent).addClass('active');
+				window.location.hash = tabContent;
 
 			}
 
