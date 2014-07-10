@@ -70,8 +70,8 @@
 					if (settings.transferClasses) {
 						methods.transferClasses.call($this);
 					}
-					if (settings.class) {
-						data.wrapper.addClass(settings.class);
+					if (settings['class']) {
+						data.wrapper.addClass(settings['class']);
 					}
 
 					// Create the content element
@@ -205,8 +205,8 @@
 					if (settings.transferClasses) {
 						methods.transferClasses.call($this);
 					}
-					if (settings.class) {
-						data.wrapper.addClass(settings.class);
+					if (settings['class']) {
+						data.wrapper.addClass(settings['class']);
 					}
 
 					// Create the stylable elements
@@ -303,8 +303,8 @@
 					if (settings.transferClasses) {
 						methods.transferClasses.call($this);
 					}
-					if (settings.class) {
-						data.wrapper.addClass(settings.class);
+					if (settings['class']) {
+						data.wrapper.addClass(settings['class']);
 					}
 
 					// Create the stylable elements
@@ -409,8 +409,8 @@
 						}
 
 						// Add a custom wrapper class
-						if (data.settings.class) {
-							data.wrapper.addClass(settings.class);
+						if (data.settings['class']) {
+							data.wrapper.addClass(settings['class']);
 						}
 
 						// Create the groove element
