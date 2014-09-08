@@ -9,7 +9,7 @@
 // SNAP RESPONSIVENESS
 
 // Snap the viewport to specific widths
-function setViewport() {
+;function setViewport() {
 
 	// Anything under the threshold will snap to the width
 	// Put smaller sizes first so they iterate in correct order
