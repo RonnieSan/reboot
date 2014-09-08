@@ -104,4 +104,4 @@ var reboot_init = function() {
 	// END FORM STYLING
 	// --------------------------------------------------
 
-}
+};
